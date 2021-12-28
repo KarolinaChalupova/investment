@@ -58,6 +58,7 @@ if __name__ == "__main__":
     etf_df["yfinance_ticker"] = etf_df.apply(
         lambda x: get_yfinance_ticker(x["Instrument"]), axis=1
     )
+    etf_df.to_csv("downloaded/etf_df.csv")
     tickers = list(etf_df.yfinance_ticker.values)
     successful_tickers = [ticker for ticker in tickers if ticker != "No Symbol Found"]
 
