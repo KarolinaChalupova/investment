@@ -1,3 +1,4 @@
 yfinance # downloading from yfinance API
 ipykernel
 yahooquery
+matplotlib
