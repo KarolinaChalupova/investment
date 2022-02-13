@@ -45,6 +45,12 @@ def download_market_data(tickers):
     data = data.stack()
     return data
 
+def download_market_prices(tickers):
+    data = yf.download(tickers=tickers, interval="1d", period="max", group_by="ticker")
+    data = data.iloc[:,data.columns.get_level_values(1)=='Close']
+    data = data.stack()
+    return data
+
 
 if __name__ == "__main__":
     # Load dataframe with information from Portu
@@ -52,6 +58,7 @@ if __name__ == "__main__":
 
     # Correct portu names
     etf_df = etf_df.replace({"Instrument": get_correct_portu_names()})
+    
 
     # For each Intstrument in etf_df, find its yahoofinance ticker
     print("Obtaining Yahoo finance tickers for Portu Instruments...")
@@ -64,5 +71,7 @@ if __name__ == "__main__":
 
     # Download market data from yfinance
     print("Downloading market data from Yahoofinance...")
-    market_data = download_market_data(tickers=successful_tickers)
-    market_data.to_csv("downloaded/market_data.csv")
+    #market_data = download_market_data(tickers=successful_tickers)
+    #market_data.to_csv("downloaded/market_data.csv")
+    px_close=download_market_prices(tickers=successful_tickers)
+    px_close.to_csv("downloaded/market_prices.csv")
